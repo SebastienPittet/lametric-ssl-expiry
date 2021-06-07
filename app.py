@@ -4,7 +4,7 @@ from flask import Flask, jsonify
 from flask_restful import Resource, Api
 from flask_restful import reqparse
 
-from urllib.request import Request, urlopen, ssl, socket
+from urllib.request import ssl, socket
 from urllib.error import URLError, HTTPError
 import datetime
 import re
@@ -60,9 +60,9 @@ class certificate(Resource):
 
             frames['frames'].append(new_frame)
 
-        except:
+        except OSError as error:
             new_frame = {
-                        "text": "No info",
+                        "text": "No Info",
                         "icon": "1936"
                         }
 
