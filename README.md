@@ -6,7 +6,6 @@ The result is a JSON content, consumed by a Lametric Time application (ssl-expir
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/SebastienPittet/lametric-ssl-expiry.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/SebastienPittet/lametric-ssl-expiry/alerts/)
 
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/SebastienPittet/lametric-ssl-expiry.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/SebastienPittet/lametric-ssl-expiry/context:python)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/SebastienPittet/lametric-ssl-expiry.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/SebastienPittet/lametric-ssl-expiry/context:python)
 
 ## Find it in the store
 https://apps.lametric.com/apps/ssl_expiry/8659
