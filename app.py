@@ -5,7 +5,6 @@ from flask_restful import Resource, Api
 from flask_restful import reqparse
 
 from urllib.request import ssl, socket
-from urllib.error import URLError, HTTPError
 import datetime
 import re
 
