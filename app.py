@@ -18,7 +18,7 @@ parser.add_argument('port', type=str, required=True)
 
 class certificate(Resource):
     def get(self):
-        args = parser.parse_args()
+        args = parser.parse_args(strict=True)
         hostname = args['hostname']
         port = args['port']
 
@@ -74,4 +74,4 @@ api.add_resource(certificate,
                 '/certificate')
 
 if __name__ == '__main__':
-    app.run
+    app.run()
