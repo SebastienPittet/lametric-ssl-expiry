@@ -69,9 +69,11 @@ class certificate(Resource):
 
         return jsonify(frames)
 
+
 api.add_resource(certificate,
                 '/certificate/lametric',
                 '/certificate')
+
 
 if __name__ == '__main__':
     app.run()
