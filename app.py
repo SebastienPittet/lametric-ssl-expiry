@@ -1,8 +1,7 @@
 # flask run --host=0.0.0.0 --port=8000
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_restful import Resource, Api
-from flask_restful import reqparse
 
 from urllib.request import ssl, socket
 import datetime
@@ -11,16 +10,10 @@ import re
 app = Flask(__name__)
 app.config['BUNDLE_ERRORS'] = True
 api = Api(app)
-
-parser = reqparse.RequestParser(bundle_errors=True)
-parser.add_argument('hostname', type=str, required=True)
-parser.add_argument('port', type=str, required=True)
-
 class certificate(Resource):
     def get(self):
-        args = parser.parse_args(strict=True)
-        hostname = args['hostname']
-        port = args['port']
+        hostname = request.args.get("hostname")
+        port = request.args.get("port")
 
         # Manage wrong app config
         # Remove http:// or https:// using regEx
@@ -35,7 +28,7 @@ class certificate(Resource):
                             }
                           ]
                     }
-                   
+
         context = ssl.create_default_context()
 
         try:
@@ -46,7 +39,7 @@ class certificate(Resource):
 
                     # Find expiration date
                     exp_date = cert['notAfter']
-       
+
             expiry = datetime.datetime.strptime(exp_date, '%b %d %X %Y %Z')
             today = datetime.datetime.today()
             delta = expiry - today
