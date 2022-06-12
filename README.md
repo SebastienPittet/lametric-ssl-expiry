@@ -7,6 +7,9 @@ The result is a JSON content, consumed by a Lametric Time application (ssl-expir
 
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/SebastienPittet/lametric-ssl-expiry.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/SebastienPittet/lametric-ssl-expiry/context:python)
 
+## Run the Python app as a service
+https://www.shubhamdipt.com/blog/how-to-create-a-systemd-service-in-linux/
+
 ## Find it in the store
 https://apps.lametric.com/apps/ssl_expiry/8659
 
