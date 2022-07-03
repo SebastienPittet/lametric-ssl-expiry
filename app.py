@@ -15,6 +15,14 @@ class certificate(Resource):
         hostname = request.args.get("hostname")
         port = request.args.get("port")
 
+        if not hostname:
+            # set default value if empty
+            hostname = "lametric.com"
+        
+        if not port:
+            # set default value if empty
+            port = "443"
+
         # Manage wrong app config
         # Remove http:// or https:// using regEx
         hostname = re.sub('http[s]?://', '', hostname, flags=0 )

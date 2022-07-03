@@ -16,6 +16,10 @@ https://apps.lametric.com/apps/ssl_expiry/8659
 ## Demo
 https://sebastien.pittet.org/certificate/lametric?hostname=github.com&port=443
 
+## Default values
+If the application is unconfigured, the default values are set to:
+* hostname: lametric.com
+* port: 443
 
 ## Contributions
 Please send Pull Request !
