@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/index.js') }}"></script>
+
+        <title>SSL Expiry</title>
+    </head>
+    <body>
+        <div class="columns">
+            <div class="column is-mobile">
+                <h1 class="title is-1">SSL Expiry</h1>
+
+                <div class="tabs is-centered is-medium is-boxed is-toggle">
+                    <ul>
+                        <li class="is-active" id="CheckCert">
+                            <a>Check a certificate expiry</a>
+                        </li>
+                        <li id="Stats">
+                            <a>Statistics</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="card" id="tab-content">
+                    <div id="CheckCert">
+                        <h3 class="subtitle is-3">Check a TLS certificate</h3>
+                        <div class="box">
+                            <div class="field">
+                                <label class="">Hostname</label>
+                                <div class="control">
+                                    <input id="hostname" class="input is-primary" type="text" placeholder="e.g. www.lametric.com" size="30" autofocus>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="range">TCP Port</label>
+                                <div class="control">
+                                    <input id="port" class="input is-info" type="text" placeholder="e.g. 443" value="443" min="1" max="65534" pattern="[0-9]{1,5}">
+                                </div>
+                            </div>
+
+                            <button id="SubmitBtn" class="button is-dark" type="submit" is-fullwidth is-primary>Check expiry</button>
+                        </div>
+
+                        <div id="answer" class="is-hidden">
+                            <p class="subtitle is-3">SSL Expiry in:</p>
+                            <p id="expiryTime" class="subtitle is-5">27 days</p>
+                        </div>
+
+                    </div>
+
+                    <div id="Stats" class="is-hidden">
+                        <h3 class="subtitle is-3">Statistics</h2>
+                        <nav class="level">
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <p class="heading">Count of hostnames</p>
+                                    <p xlass="subtitle is-3">3,456</p>
+                                </div>
+                            </div>
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <p class="heading">Last Hostname</p>
+                                    <p class="subtitle is-3">lametric.com</p>
+                                </div>
+                            </div>
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <p class="heading">Server Uptime</p>
+                                    <p class="subtitle is-3">12h</p>
+                                </div>
+                            </div>
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <p class="heading">Last hour checks</p>
+                                    <p class="subtitle is-3">3</p>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="block"></div>
+        <footer class="footer">
+            <div class="content has-text-centered">
+              <p>
+                <strong>SSLexpiry</strong> by <a href="https://sebastien.pittet.org">Sébastien Pittet</a>. The source code is licensed
+                <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
+              </p>
+            </div>
+          </footer>
+    </body>
+</html>

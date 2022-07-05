@@ -1,7 +1,6 @@
 # flask run --host=0.0.0.0 --port=8000
 
-from flask import Flask, jsonify, request
-from flask_restful import Resource, Api
+from flask import Flask, jsonify, render_template, request
 
 from urllib.request import ssl, socket
 import datetime
@@ -9,26 +8,37 @@ import re
 
 app = Flask(__name__)
 app.config['BUNDLE_ERRORS'] = True
-api = Api(app)
-class certificate(Resource):
-    def get(self):
-        hostname = request.args.get("hostname")
-        port = request.args.get("port")
 
-        if not hostname:
+default_hostname = "lametric.com"
+default_port     = "443"
+
+class certificate:
+    """
+    The aim of this class is to check the expiry of
+    a certificate for a given hostname.
+    """
+    def __init__(self, hostname=default_hostname, port=default_port):
+        """
+        Init. Help text here
+        Clean-up of the data provided.  
+        """
+        self.hostname = hostname
+        self.port = port
+
+        if not self.port:
             # set default value if empty
-            hostname = "lametric.com"
-        
-        if not port:
+            self.port = "443"
+
+        if not self.hostname:
             # set default value if empty
-            port = "443"
+            self.hostname = "lametric.com"
 
         # Manage wrong app config
         # Remove http:// or https:// using regEx
-        hostname = re.sub('http[s]?://', '', hostname, flags=0 )
+        self.hostname = re.sub('http[s]?://', '', self.hostname, flags=0 )
 
-        # at least, display the app name
-        frames = {
+       # at least, display the app name. Init of the LAMETRIC frames.
+        self.frames = {
                 "frames": [
                             {
                             "text": "SSL exp",
@@ -36,13 +46,15 @@ class certificate(Resource):
                             }
                           ]
                     }
+        return
 
+    def check(self):
         context = ssl.create_default_context()
 
         try:
-            with socket.create_connection((hostname, port)) as sock:
+            with socket.create_connection((self.hostname, self.port)) as sock:
                 with context.wrap_socket(sock,
-                                         server_hostname=hostname) as ssock:
+                                         server_hostname=self.hostname) as ssock:
                     cert=ssock.getpeercert()
 
                     # Find expiration date
@@ -58,7 +70,7 @@ class certificate(Resource):
                         "icon": "a464"
                         }
 
-            frames['frames'].append(new_frame)
+            self.frames['frames'].append(new_frame)
 
         except OSError as error:
             new_frame = {
@@ -66,15 +78,23 @@ class certificate(Resource):
                         "icon": "1936"
                         }
 
-            frames['frames'].append(new_frame)
+            self.frames['frames'].append(new_frame)
+        
+        return jsonify(self.frames)
 
-        return jsonify(frames)
 
+@app.route("/certificate/lametric", methods=['GET'])
+@app.route("/certificate/api", methods=['GET'])
+def check_certificate():
+    hostname = request.args.get("hostname")
+    port = request.args.get("port")
 
-api.add_resource(certificate,
-                '/certificate/lametric',
-                '/certificate')
+    myCert = certificate(hostname, port)
+    return myCert.check()
 
+@app.route("/certificate/web", methods=['GET'])
+def webFrontEnd():
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run()
