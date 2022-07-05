@@ -1,3 +1,4 @@
+// bulma tab switching and display related content
 $(function() {
     const tabs = document.querySelectorAll('.tabs li');
     const tabContentBoxes = document.querySelectorAll('#tab-content > div');
@@ -20,7 +21,7 @@ $(function() {
     })
 })
 
-
+// get form values, submit the form and display the results
 $(function() {
     $(".button").click(function() {
         const expiry_url = "/certificate/api";
