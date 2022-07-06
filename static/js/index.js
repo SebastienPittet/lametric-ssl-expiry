@@ -45,11 +45,18 @@ $(function() {
 
         // ask the backend and init the page
         $.ajax(expiry_url, settings).done(function (response) {
-            var expiry = response['frames'][1]['text'];
+            var expiry = $("#hostname").val() + " will expire in " + response['frames'][1]['text'] + ".";
 
             // set the value and show results
             $("#expiryTime").text(expiry);
             $("#answer").removeClass("is-hidden");
         })
+    }
+)});
+
+// click on delete button from the answer and remove it
+$(function() {
+    $(".delete").click(function() {
+        $("#answer").addClass("is-hidden");
     }
 )});

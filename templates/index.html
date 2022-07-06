@@ -12,17 +12,22 @@
         <title>SSL Expiry</title>
     </head>
     <body>
-        <div class="columns">
-            <div class="column is-mobile">
+        <div class="columns is-mobile is-centered">
+            <div class="column is-half">
                 <h1 class="title is-1">SSL Expiry</h1>
-
-                <div class="tabs is-centered is-medium is-boxed is-toggle">
+                <div class="block">
+                    <p>Check the remaining days before your SSL/TLS certificate expiry and renew it early enough!</p>
+                </div>
+                <div class="tabs is-centered is-boxed is-medium is-toggle">
                     <ul>
                         <li class="is-active" id="CheckCert">
-                            <a>Check a certificate expiry</a>
+                            <a>Check a Certificate expiry</a>
                         </li>
                         <li id="Stats">
                             <a>Statistics</a>
+                        </li>
+                        <li id="About">
+                            <a>About</a>
                         </li>
                     </ul>
                 </div>
@@ -34,7 +39,7 @@
                             <div class="field">
                                 <label class="">Hostname</label>
                                 <div class="control">
-                                    <input id="hostname" class="input is-primary" type="text" placeholder="e.g. www.lametric.com" size="30" autofocus>
+                                    <input id="hostname" class="input is-primary" type="text" placeholder="e.g. www.lametric.com (default value)" size="30" autofocus required>
                                 </div>
                             </div>
 
@@ -45,48 +50,69 @@
                                 </div>
                             </div>
 
-                            <button id="SubmitBtn" class="button is-dark" type="submit" is-fullwidth is-primary>Check expiry</button>
+                            <button id="SubmitBtn" class="button is-primary" type="submit" is-primary>Check expiry</button>
                         </div>
 
                         <div id="answer" class="is-hidden">
-                            <p class="subtitle is-3">SSL Expiry in:</p>
-                            <p id="expiryTime" class="subtitle is-5">27 days</p>
+                            <article class="message is-medium is-info">
+                                <div class="message-header">
+                                  <p>SSL Expiry in:</p>
+                                  <button class="delete is-medium" aria-label="delete"></button>
+                                </div>
+                                <div class="message-body">
+                                  <p id="expiryTime"></p>
+                                </div>
+                              </article>
                         </div>
 
                     </div>
 
                     <div id="Stats" class="is-hidden">
                         <h3 class="subtitle is-3">Statistics</h2>
+                        <div class="block">
+                            <p>This application rely on a public API consumed by a <a href="https://www.lametric.com" target="_blank">LAMETRIC TIME</a> application. This content gives an overview about the usage.</p>
+                        </div>
                         <nav class="level">
                             <div class="level-item has-text-centered">
                                 <div>
                                     <p class="heading">Count of hostnames</p>
-                                    <p class="subtitle is-3">3,456 (still to do)</p>
+                                    <p class="subtitle is-3">3'456 (fake)</p>
                                 </div>
                             </div>
                             <div class="level-item has-text-centered">
                                 <div>
                                     <p class="heading">Last Hostname</p>
-                                    <p class="subtitle is-3">lametric.com (still to do)</p>
+                                    <p class="subtitle is-3">lametric.com (fake)</p>
                                 </div>
                             </div>
                             <div class="level-item has-text-centered">
                                 <div>
                                     <p class="heading">Server Uptime</p>
-                                    <p class="subtitle is-3">12h (still to do)</p>
+                                    <p class="subtitle is-3">12h (fake)</p>
                                 </div>
                             </div>
                             <div class="level-item has-text-centered">
                                 <div>
                                     <p class="heading">Last hour checks</p>
-                                    <p class="subtitle is-3">3 (still to do)</p>
+                                    <p class="subtitle is-3">3 (fake)</p>
                                 </div>
                             </div>
                         </nav>
                     </div>
+
+                    <div id="About" class="is-hidden">
+                        <h3 class="subtitle is-3">About</h2>
+                        <nav class="level">
+                            <div class="level-item has-text-centered">
+                                <p>Enter here a desc about this app.</p>
+                            </div>
+                        </nav>
+                    </div>
+
                 </div>
             </div>
         </div>
+
         <div class="block"></div>
         <footer class="footer">
             <div class="content has-text-centered">
