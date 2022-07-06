@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/index.js') }}"></script>
+
+        <title>SSL Expiry</title>
+    </head>
+    <body>
+        <div class="columns is-mobile is-centered">
+            <div class="column is-half">
+                <h1 class="title is-1">SSL Expiry</h1>
+                <div class="block">
+                    <h5 class="subtitle is-5">Check the remaining days before your SSL/TLS certificate expiry and renew it early enough!</h5>
+                </div>
+                <div class="tabs is-centered is-boxed is-medium is-toggle">
+                    <ul>
+                        <li class="is-active" id="CheckCert">
+                            <a>Check a Certificate expiry</a>
+                        </li>
+                        <li id="Stats">
+                            <a>Statistics</a>
+                        </li>
+                        <li id="About">
+                            <a>About</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card" id="tab-content">
+                    <div id="CheckCert">
+                        <h3 class="subtitle is-3">Check a TLS certificate</h3>
+                        <div class="box">
+                            <div class="field">
+                                <label class="">Hostname</label>
+                                <div class="control">
+                                    <input id="hostname" class="input is-primary" type="text" placeholder="e.g. www.lametric.com (default value)" size="30" autofocus required>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="range">TCP Port</label>
+                                <div class="control">
+                                    <input id="port" class="input is-info" type="text" placeholder="e.g. 443" value="443" min="1" max="65534" pattern="[0-9]{1,5}">
+                                </div>
+                            </div>
+
+                            <button id="SubmitBtn" class="button is-primary" type="submit" is-primary>Check expiry</button>
+                        </div>
+
+                        <div id="answer" class="is-hidden">
+                            <article class="message is-medium is-info">
+                                <div class="message-header">
+                                  <p>SSL Expiry in:</p>
+                                  <button class="delete is-medium" aria-label="delete"></button>
+                                </div>
+                                <div class="message-body">
+                                  <p id="expiryTime"></p>
+                                </div>
+                              </article>
+                        </div>
+
+                    </div>
+
+                    <div id="Stats" class="is-hidden">
+                        <h3 class="subtitle is-3">Statistics</h2>
+                        <div class="block">
+                            <p>This application rely on a public API consumed by a <a href="https://www.lametric.com" target="_blank">LAMETRIC TIME</a> application. This content gives an overview about the usage.</p>
+                        </div>
+                        <nav class="level">
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <p class="heading">Count of hostnames</p>
+                                    <p class="subtitle is-3">3'456 (fake)</p>
+                                </div>
+                            </div>
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <p class="heading">Last Hostname</p>
+                                    <p class="subtitle is-3">lametric.com (fake)</p>
+                                </div>
+                            </div>
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <p class="heading">Server Uptime</p>
+                                    <p class="subtitle is-3">12h (fake)</p>
+                                </div>
+                            </div>
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <p class="heading">Last hour checks</p>
+                                    <p class="subtitle is-3">3 (fake)</p>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+
+                    <div id="About" class="is-hidden">
+                        <h3 class="subtitle is-3">About</h2>
+                        <nav class="level">
+                            <div class="level-item has-text-centered">
+                                <p>Enter here a desc about this app.</p>
+                            </div>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="block"></div>
+        <footer class="footer">
+            <div class="content has-text-centered">
+              <p>
+                <strong>SSLexpiry</strong> by <a href="https://sebastien.pittet.org">Sébastien Pittet</a>. The source code is licensed
+                <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.</p>
+                <p>🪲 Did you find a bug?<br>Please submit your issue or contribute to the project on <a href="https://github.com/SebastienPittet/lametric-ssl-expiry/issues" target="blank">GitHub.com</a>.
+              </p>
+            </div>
+          </footer>
+    </body>
+</html>
