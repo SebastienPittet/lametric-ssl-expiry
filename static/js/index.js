@@ -24,7 +24,7 @@ $(function() {
 // get form values, submit the form and display the results
 $(function() {
     $(".button").click(function() {
-        const expiry_url = "/certificate/api";
+        const expiry_url = "/api";
 
         var formData = {
             hostname: $("#hostname").val(),
