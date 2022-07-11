@@ -82,9 +82,9 @@ class certificate:
         
         return jsonify(self.frames)
 
-
+# /certificate/lametric is to support old version of the application
 @app.route("/certificate/lametric", methods=['GET'])
-@app.route("/certificate/api", methods=['GET'])
+@app.route("/api/v1", methods=['GET'])
 def check_certificate():
     hostname = request.args.get("hostname")
     port = request.args.get("port")
@@ -92,7 +92,7 @@ def check_certificate():
     myCert = certificate(hostname, port)
     return myCert.check()
 
-@app.route("/certificate/web", methods=['GET'])
+@app.route("/", methods=['GET'])
 def webFrontEnd():
     return render_template('index.html')
 
