@@ -5,6 +5,7 @@ from flask import Flask, jsonify, render_template, request
 from urllib.request import ssl, socket
 import datetime
 import re
+import stats
 
 app = Flask(__name__)
 app.config['BUNDLE_ERRORS'] = True
@@ -88,6 +89,10 @@ class certificate:
 def check_certificate():
     hostname = request.args.get("hostname")
     port = request.args.get("port")
+    
+    # collect info for statistics
+    user_agent = request.user_agent
+    remote_addr = request.remote_addr
 
     myCert = certificate(hostname, port)
     return myCert.check()
