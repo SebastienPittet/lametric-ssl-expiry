@@ -25,7 +25,7 @@
                       </p>
                     </div>
                 </section>
-                <div class="tabs is-centered is-boxed is-medium is-toggle">
+                <div class="tabs is-centered is-boxed is-medium ">
                     <ul>
                         <li class="is-active" id="CheckCert">
                             <a>Check a Certificate expiry</a>
@@ -44,14 +44,14 @@
                         <h3 class="subtitle is-3">Check a TLS certificate</h3>
                         <div class="box">
                             <div class="field">
-                                <label class="">Hostname</label>
+                                <label class="label">Hostname</label>
                                 <div class="control">
                                     <input id="hostname" class="input is-primary" type="text" placeholder="e.g. www.lametric.com (default value)" size="30" autofocus required>
                                 </div>
                             </div>
 
                             <div class="field">
-                                <label class="range">TCP Port</label>
+                                <label class="label">TCP Port</label>
                                 <div class="control">
                                     <input id="port" class="input is-info" type="text" placeholder="e.g. 443" value="443" min="1" max="65534" pattern="[0-9]{1,5}">
                                 </div>
@@ -83,25 +83,25 @@
                             <div class="level-item has-text-centered">
                                 <div>
                                     <p class="heading">Count of hostnames</p>
-                                    <p class="subtitle is-3">3'456 (fake)</p>
+                                    <p class="subtitle is-3" id="hostname-count">N/A</p>
                                 </div>
                             </div>
                             <div class="level-item has-text-centered">
                                 <div>
                                     <p class="heading">Last Hostname</p>
-                                    <p class="subtitle is-3">lametric.com (fake)</p>
+                                    <p class="subtitle is-3" id="last-hostname">N/A</p>
                                 </div>
                             </div>
                             <div class="level-item has-text-centered">
                                 <div>
                                     <p class="heading">Server Uptime</p>
-                                    <p class="subtitle is-3">12h (fake)</p>
+                                    <p class="subtitle is-3" id="server-uptime">N/A</p>
                                 </div>
                             </div>
                             <div class="level-item has-text-centered">
                                 <div>
                                     <p class="heading">Last hour checks</p>
-                                    <p class="subtitle is-3">3 (fake)</p>
+                                    <p class="subtitle is-3" id="last-hour-checks">N/A</p>
                                 </div>
                             </div>
                         </nav>
@@ -135,7 +135,7 @@
         <footer class="footer">
             <div class="content has-text-centered">
               <p>
-                <strong>SSLexpiry</strong> by <a href="https://sebastien.pittet.org">Sébastien Pittet</a>. The source code is licensed
+                <strong>SSLexpiry</strong> by <a href="https://sebastien.pittet.org">Sébastien Pittet</a> and hosted at <a href="https://www.exoscale.com" target="_blank" alt="European Cloud Provider">Exoscale</a>. The source code is licensed
                 <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.</p>
                 <p>🪲 Did you find a bug?<br>Please submit your issue or contribute to the project on <a href="https://github.com/SebastienPittet/lametric-ssl-expiry/issues" target="blank">GitHub.com</a>.
               </p>

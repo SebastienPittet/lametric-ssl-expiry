@@ -83,16 +83,17 @@ class certificate:
         
         return jsonify(self.frames)
 
-# /certificate/lametric is to support old version of the application
-@app.route("/certificate/lametric", methods=['GET'])
+
 @app.route("/api/v1", methods=['GET'])
 def check_certificate():
     hostname = request.args.get("hostname")
     port = request.args.get("port")
     
     # collect info for statistics
-    user_agent = request.user_agent
-    remote_addr = request.remote_addr
+    recording = stats.appRequest()
+    recording.store(hostname,
+                      port,
+                      request.remote_addr)
 
     myCert = certificate(hostname, port)
     return myCert.check()
@@ -100,6 +101,11 @@ def check_certificate():
 @app.route("/", methods=['GET'])
 def webFrontEnd():
     return render_template('index.html')
+
+@app.route("/api/v1/metrics", methods=['GET'])
+def statistics():
+    metrics = stats.metrics()
+    return metrics.show()
 
 if __name__ == '__main__':
     app.run()
