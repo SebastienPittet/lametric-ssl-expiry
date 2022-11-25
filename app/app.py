@@ -1,13 +1,11 @@
-# flask run --host=0.0.0.0 --port=8000
-
-from flask import Flask, jsonify, render_template, request
+from flask import jsonify, render_template, request
 
 from urllib.request import ssl, socket
 import datetime
 import re
-import stats
+from . import metrics
 
-app = Flask(__name__)
+from app import app
 app.config['BUNDLE_ERRORS'] = True
 
 default_hostname = "lametric.com"
@@ -48,6 +46,7 @@ class certificate:
                           ]
                     }
         return
+
 
     def check(self):
         context = ssl.create_default_context()
@@ -90,22 +89,36 @@ def check_certificate():
     port = request.args.get("port")
     
     # collect info for statistics
-    recording = stats.appRequest()
-    recording.store(hostname,
-                      port,
-                      request.remote_addr)
+    try:
+        recording = metrics.metrics()
+        recording.storeDB(hostname,
+                          port,
+                          request.remote_addr,
+                        )
+    except Exception as e:
+        # Do something in case of error
+        print(e)
 
     myCert = certificate(hostname, port)
     return myCert.check()
+
 
 @app.route("/", methods=['GET'])
 def webFrontEnd():
     return render_template('index.html')
 
+
 @app.route("/api/v1/metrics", methods=['GET'])
 def statistics():
-    metrics = stats.metrics()
-    return metrics.show()
+    stats = metrics.metrics()
+    return stats.show()
+
+
+# Testing to check if it works
+@app.route('/test')
+def test():
+    return "OK!"
+
 
 if __name__ == '__main__':
     app.run()
