@@ -39,10 +39,12 @@ def query_db(query, args=(), one=False):
 def StoreDB(hostname, port, timestamp, remoteaddr):
     conn = connect_db(DATABASE)
     cur = conn.cursor()
-    insert_query = f"""
+    
+    #to avoid SQL injection
+    values_to_insert = [(hostname, port, remoteaddr, timestamp)]
+    cur.executemany("""
         INSERT INTO metrics (hostname, port, remoteAddr, timestamp)
-        VALUES ("{hostname}", "{port}", "{remoteaddr}", {timestamp});"""
-    cur.execute(insert_query)
+        VALUES (?,?,?,?);""", values_to_insert)
     conn.commit()
 
     return None
