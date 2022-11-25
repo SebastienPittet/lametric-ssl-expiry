@@ -1,9 +1,7 @@
 from uptime import uptime
 from datetime import timedelta, datetime, date
 import json
-
 from . import database
-
 
 DEFAULT_HOSTNAME = "lametric.com"
 DEFAULT_PORT = 443

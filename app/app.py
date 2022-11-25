@@ -1,12 +1,11 @@
+from app import app
 from flask import jsonify, render_template, request
-
 from urllib.request import ssl, socket
 import datetime
 import re
 from . import metrics
+from . import database
 
-from app import app
-app.config['BUNDLE_ERRORS'] = True
 
 default_hostname = "lametric.com"
 default_port     = "443"
