@@ -4,7 +4,6 @@ from urllib.request import ssl, socket
 import datetime
 import re
 from . import metrics
-from . import database
 
 
 default_hostname = "lametric.com"
