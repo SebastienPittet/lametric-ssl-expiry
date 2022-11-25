@@ -54,6 +54,7 @@ def GetDB():
     Execute some queries and returns a dict
     """
 
+    results = {}
     conn = connect_db(DATABASE)
     cur = conn.cursor()
 
