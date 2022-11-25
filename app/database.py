@@ -61,14 +61,20 @@ def GetDB():
     hostname_count = """SELECT COUNT(DISTINCT hostname) AS "Hostname_Count" FROM metrics;
     """
     cur.execute(hostname_count)
-    counthostname, = cur.fetchone()
+    try:
+        counthostname, = cur.fetchone()
+    except:
+        counthostname = 0
 
 
     # Last hostname
     last_hostname = """SELECT hostname FROM metrics ORDER BY timestamp DESC LIMIT 1;
     """
     cur.execute(last_hostname)
-    lastcert, = cur.fetchone()
+    try:
+        lastcert, = cur.fetchone()
+    except:
+        lastcert = "None"
 
     # Last hour checks
     current_time = datetime.now()
@@ -76,7 +82,11 @@ def GetDB():
     count_last_hour = f"""SELECT COUNT(DISTINCT hostname) AS "LastHourCount" FROM metrics WHERE timestamp >= {lasthour};
     """
     cur.execute(count_last_hour)
-    count_last_h, = cur.fetchone()
+    
+    try:
+        count_last_h, = cur.fetchone()
+    except:
+        count_lat_h = 0
 
     results = {
         "Hostname Count": counthostname,
