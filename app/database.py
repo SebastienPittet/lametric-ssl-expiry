@@ -54,6 +54,7 @@ def GetDB():
     Execute some queries and returns a dict
     """
 
+    count_last_h = 0
     results = {}
     conn = connect_db(DATABASE)
     cur = conn.cursor()
@@ -64,7 +65,7 @@ def GetDB():
     cur.execute(hostname_count)
     try:
         counthostname, = cur.fetchone()
-    except:
+    except Exception as ex:
         counthostname = 0
 
 
@@ -74,7 +75,7 @@ def GetDB():
     cur.execute(last_hostname)
     try:
         lastcert, = cur.fetchone()
-    except:
+    except Exception as ex:
         lastcert = "None"
 
     # Last hour checks
@@ -86,8 +87,8 @@ def GetDB():
     
     try:
         count_last_h, = cur.fetchone()
-    except:
-        count_lat_h = 0
+    except Exception as ex:
+        count_last_h = 0
 
     results = {
         "Hostname Count": counthostname,
