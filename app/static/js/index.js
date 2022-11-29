@@ -1,4 +1,5 @@
 const expiry_url = "/api/v1";
+const statistics_url = "/api/v1/metrics";
 
 // bulma tab switching and display related content
 $(function() {
@@ -46,10 +47,10 @@ $(function() {
 
         // ask the backend and init the page
         $.ajax(expiry_url, settings).done(function (response) {
-            var expiry = $("#hostname").val() + " will expire in " + response['frames'][1]['text'] + ".";
+            var expiry = $("#hostname").val() + " will expire <strong>in " + response['frames'][1]['text'] + "</strong>.";
 
             // set the value and show results
-            $("#expiryTime").text(expiry);
+            $("#expiryTime").html(expiry);
             $("#answer").removeClass("is-hidden");
         })
     }
@@ -61,3 +62,31 @@ $(function() {
         $("#answer").addClass("is-hidden");
     }
 )});
+
+// populate the statistics page
+$(function() {
+    var settings = {
+        'cache': false,
+        'dataType': 'json',
+        'async': true,
+        'crossDomain': true,
+        'method': 'GET',
+        'headers': {
+            'accept': 'application/json',
+        }
+    }
+
+    // ask the API
+    $.ajax(statistics_url, settings).done(function (stats) {
+        var serverUptime = stats['Server Uptime'];
+        var hostnameCount = stats['Hostname Count'];
+        var lastHostname = stats['Last Hostname'];
+        var lastHourChecks = stats['Last Hour Checks'];
+
+        // set the values
+        $("#server-uptime").html(serverUptime);
+        $("#hostname-count").html(hostnameCount);
+        $("#last-hostname").html(lastHostname);
+        $("#last-hour-checks").html(lastHourChecks);
+    })
+});

@@ -15,11 +15,17 @@
     <body>
         <div class="columns is-mobile is-centered">
             <div class="column is-four-fifths">
-                <h1 class="title is-1">SSL Expiry</h1>
-                <div class="block">
-                    <h5 class="subtitle is-5">Check the remaining days before your SSL/TLS certificate expiry and renew it early enough!</h5>
-                </div>
-                <div class="tabs is-centered is-boxed is-medium is-toggle">
+                <section class="hero">
+                    <div class="hero-body">
+                      <p class="title">
+                        SSL Expiry
+                      </p>
+                      <p class="subtitle">
+                        Check the remaining days before your SSL/TLS certificate expiry and renew it early enough!
+                      </p>
+                    </div>
+                </section>
+                <div class="tabs is-centered is-boxed is-medium ">
                     <ul>
                         <li class="is-active" id="CheckCert">
                             <a>Check a Certificate expiry</a>
@@ -38,14 +44,14 @@
                         <h3 class="subtitle is-3">Check a TLS certificate</h3>
                         <div class="box">
                             <div class="field">
-                                <label class="">Hostname</label>
+                                <label class="label">Hostname</label>
                                 <div class="control">
                                     <input id="hostname" class="input is-primary" type="text" placeholder="e.g. www.lametric.com (default value)" size="30" autofocus required>
                                 </div>
                             </div>
 
                             <div class="field">
-                                <label class="range">TCP Port</label>
+                                <label class="label">TCP Port</label>
                                 <div class="control">
                                     <input id="port" class="input is-info" type="text" placeholder="e.g. 443" value="443" min="1" max="65534" pattern="[0-9]{1,5}">
                                 </div>
@@ -77,42 +83,42 @@
                             <div class="level-item has-text-centered">
                                 <div>
                                     <p class="heading">Count of hostnames</p>
-                                    <p class="subtitle is-3">3'456 (fake)</p>
+                                    <p class="subtitle is-3" id="hostname-count">N/A</p>
                                 </div>
                             </div>
                             <div class="level-item has-text-centered">
                                 <div>
                                     <p class="heading">Last Hostname</p>
-                                    <p class="subtitle is-3">lametric.com (fake)</p>
+                                    <p class="subtitle is-3" id="last-hostname">N/A</p>
                                 </div>
                             </div>
                             <div class="level-item has-text-centered">
                                 <div>
                                     <p class="heading">Server Uptime</p>
-                                    <p class="subtitle is-3">12h (fake)</p>
+                                    <p class="subtitle is-3" id="server-uptime">N/A</p>
                                 </div>
                             </div>
                             <div class="level-item has-text-centered">
                                 <div>
                                     <p class="heading">Last hour checks</p>
-                                    <p class="subtitle is-3">3 (fake)</p>
+                                    <p class="subtitle is-3" id="last-hour-checks">N/A</p>
                                 </div>
                             </div>
                         </nav>
                     </div>
 
                     <div id="About" class="is-hidden">
-                        <h3 class="subtitle is-3">About</h2>
-                        <div class="has-text-centered">
-                            <figure class="image is-2by1">
-                                <img class="has-ratio" alt="LaMetric Time" width="640" height="320" src="{{ url_for('static', filename='pics/lametric.png') }}">
-                            </figure>
-                            <h5 class="subtitle is-5">The Story</h2>
-                            <div class="content">
-                                <p>Years ago, a customer of mine was in a hurry and requested assistance to renew their SSL certificate.</p>
+                        <h3 class="subtitle is-3">The Story</h3>
+                        <div class="content has-text-left">
+                            <p>Years ago, a customer of mine was in a hurry and requested assistance to renew their SSL certificate.</p>
                                 <p>🔥No connection to a core system anymore for 500 employees!🔥</p>
                                 <p>I trained them and then found some fun in the developpment of an app for 
                                     their <a href="https://lametric.com/" target="_blank" alt="LaMetric Time">LaMetric Time</a> to help them keep an eye on it.</p>
+                            <figure class="image is-3by1">
+                                <img class="has-ratio" alt="LaMetric Time" width="640" height="320" src="{{ url_for('static', filename='pics/lametric.png') }}">
+                            </figure>
+                            <h3 class="subtitle is-3">Today</h3>
+                            <div class="content has-text-left">
                                 <p>Nowadays, it's recommended to use <a href="https://letsencrypt.org/" target="_blank">LetsEncrypt certificates</a> and related 
                                     toolset (I like <a href="https://certbot.eff.org/instructions" alt="EFF Certbot" target="_blank">Certbot</a> a lot).</p>
                                 <p>But as the <a href="https://apps.lametric.com/apps/ssl_expiry/8659" target="_blank" alt="LaMetric Time SSL Expiry">Application 
@@ -129,11 +135,12 @@
         <footer class="footer">
             <div class="content has-text-centered">
               <p>
-                <strong>SSLexpiry</strong> by <a href="https://sebastien.pittet.org">Sébastien Pittet</a>. The source code is licensed
+                <strong>SSLexpiry</strong> by <a href="https://sebastien.pittet.org">Sébastien Pittet</a> and hosted at <a href="https://www.exoscale.com" target="_blank" alt="European Cloud Provider">Exoscale</a>. The source code is licensed
                 <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.</p>
                 <p>🪲 Did you find a bug?<br>Please submit your issue or contribute to the project on <a href="https://github.com/SebastienPittet/lametric-ssl-expiry/issues" target="blank">GitHub.com</a>.
               </p>
+              <p><a href="https://www.freeprivacypolicy.com/live/ab3e8f63-bee8-41ce-9ccd-68c0bf1bbd68" target="_blank">Check our Privacy Policy here.</p>
             </div>
-          </footer>
+        </footer>
     </body>
 </html>

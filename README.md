@@ -14,7 +14,7 @@ https://www.shubhamdipt.com/blog/how-to-create-a-systemd-service-in-linux/
 https://apps.lametric.com/apps/ssl_expiry/8659
 
 ## Demo
-https://sebastien.pittet.org/certificate/lametric?hostname=github.com&port=443
+https://certificate.pittet.org/api/v1?hostname=lametric.com&port=443
 
 ## Default values
 If the application is unconfigured, the default values are set to:

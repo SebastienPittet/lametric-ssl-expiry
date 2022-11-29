@@ -1,13 +1,10 @@
-# flask run --host=0.0.0.0 --port=8000
-
-from flask import Flask, jsonify, render_template, request
-
+from app import app
+from flask import jsonify, render_template, request
 from urllib.request import ssl, socket
 import datetime
 import re
+from . import metrics
 
-app = Flask(__name__)
-app.config['BUNDLE_ERRORS'] = True
 
 default_hostname = "lametric.com"
 default_port     = "443"
@@ -48,6 +45,7 @@ class certificate:
                     }
         return
 
+
     def check(self):
         context = ssl.create_default_context()
 
@@ -82,19 +80,43 @@ class certificate:
         
         return jsonify(self.frames)
 
-# /certificate/lametric is to support old version of the application
-@app.route("/certificate/lametric", methods=['GET'])
+
 @app.route("/api/v1", methods=['GET'])
 def check_certificate():
     hostname = request.args.get("hostname")
     port = request.args.get("port")
+    
+    # collect info for statistics
+    try:
+        recording = metrics.metrics()
+        recording.storeDB(hostname,
+                          port,
+                          request.remote_addr,
+                        )
+    except Exception as e:
+        # Do something in case of error
+        print(e)
 
     myCert = certificate(hostname, port)
     return myCert.check()
 
+
 @app.route("/", methods=['GET'])
 def webFrontEnd():
     return render_template('index.html')
+
+
+@app.route("/api/v1/metrics", methods=['GET'])
+def statistics():
+    stats = metrics.metrics()
+    return stats.show()
+
+
+# Testing to check if it works
+@app.route('/test')
+def test():
+    return "OK!"
+
 
 if __name__ == '__main__':
     app.run()
