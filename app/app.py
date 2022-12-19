@@ -1,9 +1,12 @@
-from app import app
+#from app import ssl_expiry_app
+from flask import Flask
 from flask import jsonify, render_template, request
 from urllib.request import ssl, socket
 import datetime
 import re
-from . import metrics
+from metrics import metrics
+
+ssl_expiry_app = Flask(__name__)
 
 
 default_hostname = "lametric.com"
@@ -81,14 +84,14 @@ class certificate:
         return jsonify(self.frames)
 
 
-@app.route("/api/v1", methods=['GET'])
+@ssl_expiry_app.route("/api/v1", methods=['GET'])
 def check_certificate():
     hostname = request.args.get("hostname")
     port = request.args.get("port")
     
     # collect info for statistics
     try:
-        recording = metrics.metrics()
+        recording = metrics()
         recording.storeDB(hostname,
                           port,
                           request.remote_addr,
@@ -101,22 +104,22 @@ def check_certificate():
     return myCert.check()
 
 
-@app.route("/", methods=['GET'])
+@ssl_expiry_app.route("/", methods=['GET'])
 def webFrontEnd():
     return render_template('index.html')
 
 
-@app.route("/api/v1/metrics", methods=['GET'])
+@ssl_expiry_app.route("/api/v1/metrics", methods=['GET'])
 def statistics():
-    stats = metrics.metrics()
+    stats = metrics()
     return stats.show()
 
 
 # Testing to check if it works
-@app.route('/test')
+@ssl_expiry_app.route('/test')
 def test():
     return "OK!"
 
 
 if __name__ == '__main__':
-    app.run()
+    ssl_expiry_app.run()
