@@ -27,6 +27,10 @@ $(function() {
 // get form values, submit the form and display the results
 $(function() {
     $(".button").click(function() {
+        // set default value if empty
+        if (!$("#hostname").val() ) {
+            $("#hostname").val("lametric.com");
+        }
 
         var formData = {
             hostname: $("#hostname").val(),
@@ -63,30 +67,32 @@ $(function() {
     }
 )});
 
-// populate the statistics page
+// populate the statistics page when tab is clicked
 $(function() {
-    var settings = {
-        'cache': false,
-        'dataType': 'json',
-        'async': true,
-        'crossDomain': true,
-        'method': 'GET',
-        'headers': {
-            'accept': 'application/json',
+    $("#Stats").click(function() {
+        var settings = {
+            'cache': false,
+            'dataType': 'json',
+            'async': true,
+            'crossDomain': true,
+            'method': 'GET',
+            'headers': {
+                'accept': 'application/json',
+            }
         }
-    }
 
-    // ask the API
-    $.ajax(statistics_url, settings).done(function (stats) {
-        var serverUptime = stats['Server Uptime'];
-        var hostnameCount = stats['Hostname Count'];
-        var lastHostname = stats['Last Hostname'];
-        var lastHourChecks = stats['Last Hour Checks'];
+        // ask the API
+        $.ajax(statistics_url, settings).done(function (stats) {
+            var serverUptime = stats['Server Uptime'];
+            var hostnameCount = stats['Hostname Count'];
+            var lastHostname = stats['Last Hostname'];
+            var lastHourChecks = stats['Last Hour Checks'];
 
-        // set the values
-        $("#server-uptime").html(serverUptime);
-        $("#hostname-count").html(hostnameCount);
-        $("#last-hostname").html(lastHostname);
-        $("#last-hour-checks").html(lastHourChecks);
+            // set the values
+            $("#server-uptime").html(serverUptime);
+            $("#hostname-count").html(hostnameCount);
+            $("#last-hostname").html(lastHostname);
+            $("#last-hour-checks").html(lastHourChecks);
+        })        
     })
 });

@@ -35,9 +35,10 @@ class certificate:
 
         # Manage wrong app config
         # Remove http:// or https:// using regEx
-        self.hostname = re.sub('http[s]?://', '', self.hostname, flags=0 )
+        self.hostname = re.sub('http[s]?://', '', self.hostname, flags=0)
+        self.hostname = self.hostname.strip() # remove whitespaces
 
-       # at least, display the app name. Init of the LAMETRIC frames.
+        # at least, display the app name. Init of the LAMETRIC frames.
         self.frames = {
                 "frames": [
                             {
