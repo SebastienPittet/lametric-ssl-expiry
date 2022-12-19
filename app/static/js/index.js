@@ -27,6 +27,10 @@ $(function() {
 // get form values, submit the form and display the results
 $(function() {
     $(".button").click(function() {
+        // set default value if empty
+        if (!$("#hostname").val() ) {
+            $("#hostname").val("lametric.com");
+        }
 
         var formData = {
             hostname: $("#hostname").val(),
