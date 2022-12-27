@@ -1,10 +1,11 @@
 from uptime import uptime
-from datetime import timedelta, datetime, date
+from datetime import timedelta, datetime
 import json
 import database
 
 DEFAULT_HOSTNAME = "lametric.com"
 DEFAULT_PORT = 443
+
 
 class metrics:
     """
@@ -21,7 +22,6 @@ class metrics:
         self.remoteAddr = ""
         return None
 
-
     def setUptime(self):
         t = uptime()
 
@@ -32,7 +32,6 @@ class metrics:
         x = td_str.split(':')
         uptimehr = x[0] + ' Hours, ' + x[1] + ' Minutes'
         return uptimehr
-
 
     def show(self):
         """
@@ -62,12 +61,13 @@ class metrics:
             self.port = port
 
         self.remoteAddr = remoteAddr
-        
+
         current_time = datetime.now()
         self.timestamp = current_time.timestamp()
 
         database.StoreDB(self.hostname,
-                        self.port,
-                        self.timestamp,
-                        self.remoteAddr)
+                         self.port,
+                         self.timestamp,
+                         self.remoteAddr)
         return None
+

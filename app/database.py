@@ -9,7 +9,8 @@ DB_SCHEMA = os.path.join(os.getcwd(), 'schema.sql')
 ####################################################
 # Some functions to handle the database
 
-def connect_db(db_file = DATABASE):
+
+def connect_db(db_file=DATABASE):
     conn = None
     try:
         conn = sqlite3.connect(db_file)
@@ -17,16 +18,18 @@ def connect_db(db_file = DATABASE):
         print(e)
     return conn
 
+
 def init_db():
     try:
         conn = connect_db(DATABASE)
         with open(DB_SCHEMA, mode='r') as f:
             cur = conn.cursor()
-            cur.executescript(f.read()) 
+            cur.executescript(f.read())
             f.close()
             conn.commit()
     finally:
         conn.close()
+
 
 def query_db(query, args=(), one=False):
     cur = connect_db().execute(query, args)
@@ -34,7 +37,8 @@ def query_db(query, args=(), one=False):
     cur.close()
     return (rv[0] if rv else None) if one else rv
 
-####################################################
+
+# ###################################################
 
 def StoreDB(hostname, port, timestamp, remoteaddr):
     conn = connect_db(DATABASE)
@@ -48,6 +52,7 @@ def StoreDB(hostname, port, timestamp, remoteaddr):
     conn.commit()
 
     return None
+
 
 def GetDB():
     """
@@ -65,9 +70,8 @@ def GetDB():
     cur.execute(hostname_count)
     try:
         counthostname, = cur.fetchone()
-    except Exception as ex:
+    except Exception:
         counthostname = 0
-
 
     # Last hostname
     last_hostname = """SELECT hostname FROM metrics ORDER BY timestamp DESC LIMIT 1;
@@ -75,7 +79,7 @@ def GetDB():
     cur.execute(last_hostname)
     try:
         lastcert, = cur.fetchone()
-    except Exception as ex:
+    except Exception:
         lastcert = "None"
 
     # Last hour checks
@@ -84,10 +88,10 @@ def GetDB():
     count_last_hour = f"""SELECT COUNT(DISTINCT hostname) AS "LastHourCount" FROM metrics WHERE timestamp >= {lasthour};
     """
     cur.execute(count_last_hour)
-    
+
     try:
         count_last_h, = cur.fetchone()
-    except Exception as ex:
+    except Exception:
         count_last_h = 0
 
     results = {
@@ -101,3 +105,4 @@ def GetDB():
 # init DB at the first run.
 if not os.path.isfile(DATABASE):
     init_db()
+

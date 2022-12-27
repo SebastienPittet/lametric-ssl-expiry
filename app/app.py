@@ -1,4 +1,3 @@
-#from app import ssl_expiry_app
 from flask import Flask
 from flask import jsonify, render_template, request
 from urllib.request import ssl, socket
@@ -10,7 +9,8 @@ ssl_expiry_app = Flask(__name__)
 
 
 default_hostname = "lametric.com"
-default_port     = "443"
+default_port = "443"
+
 
 class certificate:
     """
@@ -20,7 +20,7 @@ class certificate:
     def __init__(self, hostname=default_hostname, port=default_port):
         """
         Init. Help text here
-        Clean-up of the data provided.  
+        Clean-up of the data provided.
         """
         self.hostname = hostname
         self.port = port
@@ -36,7 +36,7 @@ class certificate:
         # Manage wrong app config
         # Remove http:// or https:// using regEx
         self.hostname = re.sub('http[s]?://', '', self.hostname, flags=0)
-        self.hostname = self.hostname.strip() # remove whitespaces
+        self.hostname = self.hostname.strip()  # remove whitespaces
 
         # at least, display the app name. Init of the LAMETRIC frames.
         self.frames = {
@@ -49,7 +49,6 @@ class certificate:
                     }
         return
 
-
     def check(self):
         context = ssl.create_default_context()
 
@@ -57,7 +56,7 @@ class certificate:
             with socket.create_connection((self.hostname, self.port)) as sock:
                 with context.wrap_socket(sock,
                                          server_hostname=self.hostname) as ssock:
-                    cert=ssock.getpeercert()
+                    cert = ssock.getpeercert()
 
                     # Find expiration date
                     exp_date = cert['notAfter']
@@ -74,14 +73,14 @@ class certificate:
 
             self.frames['frames'].append(new_frame)
 
-        except OSError as error:
+        except OSError:
             new_frame = {
                         "text": "No Info",
                         "icon": "1936"
                         }
 
             self.frames['frames'].append(new_frame)
-        
+
         return jsonify(self.frames)
 
 
@@ -89,14 +88,14 @@ class certificate:
 def check_certificate():
     hostname = request.args.get("hostname")
     port = request.args.get("port")
-    
+
     # collect info for statistics
     try:
         recording = metrics()
         recording.storeDB(hostname,
                           port,
                           request.remote_addr,
-                        )
+                         )
     except Exception as e:
         # Do something in case of error
         print(e)

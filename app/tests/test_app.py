@@ -10,3 +10,4 @@ def test_content_OK():
         response = c.get('/test')
         assert response.status_code == 200
         assert b'OK!' in response.data
+
