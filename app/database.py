@@ -13,7 +13,7 @@ def connect_db(db_file = DATABASE):
     conn = None
     try:
         conn = sqlite3.connect(db_file)
-    except Error as e:
+    except sqlite3.Error as e:
         print(e)
     return conn
 
