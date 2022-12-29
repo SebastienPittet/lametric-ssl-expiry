@@ -43,8 +43,8 @@ def query_db(query, args=(), one=False):
 def StoreDB(hostname, port, timestamp, remoteaddr):
     conn = connect_db(DATABASE)
     cur = conn.cursor()
-    
-    #to avoid SQL injection
+
+    # to avoid SQL injection
     values_to_insert = [(hostname, port, remoteaddr, timestamp)]
     cur.executemany("""
         INSERT INTO metrics (hostname, port, remoteAddr, timestamp)
@@ -102,7 +102,7 @@ def GetDB():
     conn.close()
     return results
 
+
 # init DB at the first run.
 if not os.path.isfile(DATABASE):
     init_db()
-

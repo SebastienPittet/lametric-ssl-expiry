@@ -70,4 +70,3 @@ class metrics:
                          self.timestamp,
                          self.remoteAddr)
         return None
-
