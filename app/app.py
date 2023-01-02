@@ -95,7 +95,7 @@ def check_certificate():
         recording.storeDB(hostname,
                           port,
                           request.remote_addr,
-                         )
+                          )
     except Exception as e:
         # Do something in case of error
         print(e)
@@ -122,4 +122,6 @@ def test():
 
 
 if __name__ == '__main__':
+    ssl_expiry_app.run()
+else:
     ssl_expiry_app.run()
