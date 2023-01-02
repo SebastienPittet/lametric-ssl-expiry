@@ -1,9 +1,9 @@
 # to print the config
-#print_config = True  
+# print_config = True
 
 wsgi_app = "app:ssl_expiry_app"
 
-bind = "0.0.0.0:5000" # or unix:PATH
+bind = "0.0.0.0:5000"  # or unix:PATH
 
 # The number of worker processes for handling requests.
 workers = 2
