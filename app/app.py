@@ -123,5 +123,3 @@ def test():
 
 if __name__ == '__main__':
     ssl_expiry_app.run()
-else:
-    ssl_expiry_app.run()
