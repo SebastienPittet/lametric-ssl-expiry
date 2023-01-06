@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask import jsonify, render_template, request
 from urllib.request import ssl, socket
 import datetime
@@ -120,6 +120,10 @@ def statistics():
 def test():
     return "OK!"
 
+@ssl_expiry_app.route('/robots.txt')
+@ssl_expiry_app.route('/sitemap.xml')
+def static_from_root():
+    return send_from_directory(ssl_expiry_app.static_folder, request.path[1:])
 
 if __name__ == '__main__':
     ssl_expiry_app.run()
