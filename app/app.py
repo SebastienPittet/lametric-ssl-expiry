@@ -125,5 +125,10 @@ def test():
 def static_from_root():
     return send_from_directory(ssl_expiry_app.static_folder, request.path[1:])
 
+@ssl_expiry_app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html'), 404
+
 if __name__ == '__main__':
     ssl_expiry_app.run()
