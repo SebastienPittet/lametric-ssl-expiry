@@ -22,21 +22,13 @@ class certificate:
         Init. Help text here
         Clean-up of the data provided.
         """
-        self.hostname = hostname
         self.port = port
 
         if not self.port:
             # set default value if empty
             self.port = "443"
 
-        if not self.hostname:
-            # set default value if empty
-            self.hostname = "lametric.com"
-
-        # Manage wrong app config
-        # Remove http:// or https:// using regEx
-        self.hostname = re.sub('http[s]?://', '', self.hostname, flags=0)
-        self.hostname = self.hostname.strip()  # remove whitespaces
+        self.hostname = get_hostname(hostname)
 
         # at least, display the app name. Init of the LAMETRIC frames.
         self.frames = {
@@ -48,7 +40,7 @@ class certificate:
                           ]
                     }
         return
-
+  
     def check(self):
         context = ssl.create_default_context()
 
@@ -83,6 +75,18 @@ class certificate:
 
         return jsonify(self.frames)
 
+def get_hostname(str_hostname = default_hostname):
+    # Define the regular expression pattern for a FQDN
+    # with great help of https://regex-generator.olafneumann.org/
+    fqdn_regex = re.compile(r"([A-Za-z0-9]+(\.[A-Za-z0-9]+)+)")
+
+    # Find FQDN in the test string
+    pattern = r"([a-z0-9]+\.)?[a-z0-9]+\.[a-z]{2,}(?=/|$)"
+    match = re.search(pattern, str_hostname)
+    if match:
+        return match.group(0)
+    else:
+        return None
 
 @ssl_expiry_app.route("/api/v1", methods=['GET'])
 def check_certificate():
