@@ -80,6 +80,13 @@ class certificate:
         return jsonify(self.frames)
 
 def get_hostname(str_hostname = default_hostname):
+    # Remove whitespace and trailing slash if present
+    str_hostname = str_hostname.strip().rstrip('/')
+
+    # Remove the "https://" prefix if present
+    if str_hostname.startswith('https://'):
+        str_hostname = str_hostname[8:]
+    
     # Defined the regular expression pattern for a FQDN
     # with great help of https://regex-generator.olafneumann.org/
 
