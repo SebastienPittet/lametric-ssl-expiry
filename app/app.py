@@ -10,10 +10,6 @@ ssl_expiry_app = Flask(__name__)
 
 default_hostname = "lametric.com"
 default_port = "443"
-# limit the size of uncontrolled data string, to keep
-# good perfs of the regex search.
-default_length_hostname = 30
-
 
 class certificate:
     """
@@ -22,14 +18,14 @@ class certificate:
     """
     def __init__(self, hostname=default_hostname, port=default_port):
         """
-        Init. Help text here
-        Clean-up of the data provided.
+        To instanciate this class, hostname and TCP port are required.
+        Clean-up of the data provided and create the first LAMETRIC frame.
         """
         self.port = port
 
         if not self.port:
             # set default value if empty
-            self.port = "443"
+            self.port = default_port
 
         self.hostname = get_hostname(hostname)
 
@@ -45,6 +41,11 @@ class certificate:
         return
   
     def check(self):
+        """
+        Create a connection and get the exiry date.
+        Compute the remaining number of days.
+        Construct and append the LAMETRIC frame.
+        """
         context = ssl.create_default_context()
 
         try:
@@ -78,27 +79,25 @@ class certificate:
 
         return jsonify(self.frames)
 
-def get_hostname(str_hostname = default_hostname, hostname_length = default_length_hostname):
+def get_hostname(str_hostname = default_hostname):
     # Defined the regular expression pattern for a FQDN
     # with great help of https://regex-generator.olafneumann.org/
 
-    # limit the size of the string to avoid bad performance of the regex
-    # remove whitespaces before and after the string.
-
     # Find FQDN in the test string
-    pattern = r"([a-z0-9]+\.)?[a-z0-9]+\.[a-z]{2,}(?=/|$)"
-    match = re.search(pattern, str_hostname.strip()[0:hostname_length])
+    pattern = r'^(?:[a-z0-9]+\.)+[a-z0-9]{2,}$'
+    match = re.match(pattern, str_hostname)
+
     if match:
         return match.group(0)
     else:
-        return None
+        return default_hostname
 
 @ssl_expiry_app.route("/api/v1", methods=['GET'])
 def check_certificate():
     hostname = request.args.get("hostname")
     port = request.args.get("port")
 
-    # collect info for statistics
+    # Collect info for statistics
     try:
         recording = metrics()
         recording.storeDB(hostname,
