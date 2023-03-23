@@ -27,7 +27,7 @@ class certificate:
             # set default value if empty
             self.port = default_port
 
-        self.hostname = get_hostname(hostname)
+        self.hostname = hostname
 
         # at least, display the app name. Init of the LAMETRIC frames.
         self.frames = {
@@ -97,11 +97,13 @@ def get_hostname(str_hostname = default_hostname):
     if match:
         return match.group(0)
     else:
-        return default_hostname
+        return None
 
 @ssl_expiry_app.route("/api/v1", methods=['GET'])
 def check_certificate():
     hostname = request.args.get("hostname")
+    hostname = get_hostname(hostname)
+
     port = request.args.get("port")
 
     # Collect info for statistics
