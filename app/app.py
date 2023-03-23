@@ -83,6 +83,7 @@ def get_hostname(str_hostname = default_hostname, hostname_length = default_leng
     # with great help of https://regex-generator.olafneumann.org/
 
     # limit the size of the string to avoid bad performance of the regex
+    # remove whitespaces before and after the string.
 
     # Find FQDN in the test string
     pattern = r"([a-z0-9]+\.)?[a-z0-9]+\.[a-z]{2,}(?=/|$)"
