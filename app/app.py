@@ -10,6 +10,9 @@ ssl_expiry_app = Flask(__name__)
 
 default_hostname = "lametric.com"
 default_port = "443"
+# limit the size of uncontrolled data string, to keep
+# good perfs of the regex search.
+default_length_hostname = 30
 
 
 class certificate:
@@ -75,14 +78,15 @@ class certificate:
 
         return jsonify(self.frames)
 
-def get_hostname(str_hostname = default_hostname):
-    # Define the regular expression pattern for a FQDN
+def get_hostname(str_hostname = default_hostname, hostname_length = default_length_hostname):
+    # Defined the regular expression pattern for a FQDN
     # with great help of https://regex-generator.olafneumann.org/
-    fqdn_regex = re.compile(r"([A-Za-z0-9]+(\.[A-Za-z0-9]+)+)")
+
+    # limit the size of the string to avoid bad performance of the regex
 
     # Find FQDN in the test string
     pattern = r"([a-z0-9]+\.)?[a-z0-9]+\.[a-z]{2,}(?=/|$)"
-    match = re.search(pattern, str_hostname)
+    match = re.search(pattern, str_hostname[0:hostname_length])
     if match:
         return match.group(0)
     else:
