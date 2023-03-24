@@ -91,7 +91,7 @@ def get_hostname(str_hostname = default_hostname):
     # with great help of https://regex-generator.olafneumann.org/
 
     # Find FQDN in the test string
-    pattern = r'^(?:[a-z0-9]+\.)+[a-z0-9]{2,}$'
+    pattern = r"^(?!-)(?:[a-z0-9]+(?:-+[a-z0-9]+)*\.)+[a-z0-9]+(?:-+[a-z0-9]+)*(?<!-)$"
     match = re.match(pattern, str_hostname)
 
     if match:
