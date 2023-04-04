@@ -5,17 +5,17 @@ const statistics_url = "/api/v1/metrics";
 $(function() {
     const tabs = document.querySelectorAll('.tabs li');
     const tabContentBoxes = document.querySelectorAll('#tab-content > div');
-    
+
     tabs.forEach((tab) => {
         tab.addEventListener('click', () => {
             tabs.forEach(item => item.classList.remove('is-active'))
             tab.classList.add('is-active');
-    
+
             const target = tab.getAttribute('id');
 
             tabContentBoxes.forEach(box => {
                 if(box.getAttribute('id') === target) {
-                    box.classList.remove('is-hidden');                
+                    box.classList.remove('is-hidden');
                 } else {
                     box.classList.add('is-hidden');
                 }
@@ -36,7 +36,7 @@ $(function() {
             hostname: $("#hostname").val(),
             port: $("#port").val()
         }
-        
+
         var settings = {
             'cache': false,
             'dataType': 'json',
@@ -93,6 +93,6 @@ $(function() {
             $("#hostname-count").html(hostnameCount);
             $("#last-hostname").html(lastHostname);
             $("#last-hour-checks").html(lastHourChecks);
-        })        
+        })
     })
 });
