@@ -7,9 +7,10 @@ The result is a JSON content, consumed by a Lametric Time application (ssl-expir
 https://www.shubhamdipt.com/blog/how-to-create-a-systemd-service-in-linux/
 
 ## Container
-- docker build . -t ssl-expiry:version  (will produce an image size of < 30 MB)
+- docker build . -t ssl-expiry  (will produce an image size of < 30 MB)
 - docker run -d -p 5000:5000 <docker image>
-- docker push exo.container-registry.com/pittet-sebastien/ssl-expiry:version
+- docker image tag ssl-expiry exo.container-registry.com/pittet-sebastien/ssl-expiry 
+- docker push exo.container-registry.com/pittet-sebastien/ssl-expiry
 
 ## Find it in the store
 https://apps.lametric.com/apps/ssl_expiry/8659
