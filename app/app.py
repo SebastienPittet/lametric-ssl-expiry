@@ -11,6 +11,7 @@ ssl_expiry_app = Flask(__name__)
 default_hostname = "lametric.com"
 default_port = "443"
 
+
 class certificate:
     """
     The aim of this class is to check the expiry of
@@ -39,7 +40,7 @@ class certificate:
                           ]
                     }
         return
-  
+
     def check(self):
         """
         Create a connection and get the exiry date.
@@ -79,14 +80,15 @@ class certificate:
 
         return jsonify(self.frames)
 
-def get_hostname(str_hostname = default_hostname):
+
+def get_hostname(str_hostname=default_hostname):
     # Remove whitespace and trailing slash if present
     str_hostname = str_hostname.strip().rstrip('/')
 
     # Remove the "https://" prefix if present
     if str_hostname.startswith('https://'):
         str_hostname = str_hostname[8:]
-    
+
     # Defined the regular expression pattern for a FQDN
     # with great help of https://regex-generator.olafneumann.org/
 
@@ -98,6 +100,7 @@ def get_hostname(str_hostname = default_hostname):
         return match.group(0)
     else:
         return None
+
 
 @ssl_expiry_app.route("/api/v1", methods=['GET'])
 def check_certificate():
@@ -137,15 +140,18 @@ def statistics():
 def test():
     return "OK!"
 
+
 @ssl_expiry_app.route('/robots.txt')
 @ssl_expiry_app.route('/sitemap.xml')
 def static_from_root():
     return send_from_directory(ssl_expiry_app.static_folder, request.path[1:])
 
+
 @ssl_expiry_app.errorhandler(404)
 def page_not_found(e):
     # note that we set the 404 status explicitly
     return render_template('404.html'), 404
+
 
 if __name__ == '__main__':
     ssl_expiry_app.run()
