@@ -45,7 +45,7 @@ jobs:
           tags: exo.container-registry.com/pittet-sebastien/ssl-expiry:${{ github.sha }}
 
       - name: Log into private Docker registry
-        run: docker login your-registry -u ${{ secrets.CONTAINER_REGISTRY_USERNAME }} -p ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
+        run: docker login exo.container-registry.com/pittet-sebastien/ssl-expiry -u ${{ secrets.CONTAINER_REGISTRY_USERNAME }} -p ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
 
       - name: Push Docker image to private registry
         run: docker push exo.container-registry.com/pittet-sebastien/ssl-expiry:${{ github.sha }}
