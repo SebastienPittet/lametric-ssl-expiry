@@ -44,8 +44,12 @@ jobs:
           push: false
           tags: exo.container-registry.com/pittet-sebastien/ssl-expiry:${{ github.sha }}
 
-      - name: Log into private Docker registry
-        run: echo ${{ secrets.CONTAINER_REGISTRY_PASSWORD }} | docker login exo.container-registry.com/pittet-sebastien/ssl-expiry --password-stdin -u ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
+      - name: Log into private Docker registry exo.container-registry.com
+        uses: docker/login-action@v2
+        with:
+          registry: exo.container-registry.com/pittet-sebastien/ssl-expiry
+          username: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
+          password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
 
       - name: Push Docker image to private registry
         run: docker push exo.container-registry.com/pittet-sebastien/ssl-expiry:${{ github.sha }}
