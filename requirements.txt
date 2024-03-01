@@ -1,5 +1,5 @@
 aniso8601==9.0.1
-certifi==2023.11.17
+certifi==2024.2.2
 click==8.1.7
 Flask==3.0.1
 gunicorn==21.2.0
