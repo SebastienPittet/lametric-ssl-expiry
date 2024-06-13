@@ -48,6 +48,7 @@ class certificate:
         Construct and append the LAMETRIC frame.
         """
         context = ssl.create_default_context()
+        context.minimum_version = ssl.TLSVersion.TLSv1_2
 
         try:
             with socket.create_connection((self.hostname, self.port)) as sock:
