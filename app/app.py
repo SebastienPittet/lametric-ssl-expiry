@@ -233,14 +233,14 @@ def check_ssl_certificate(hostname: str, port: int):
 
                 return True, delta.days, None
 
-    except OSError:
-        return False, 0, "No Info"
     except socket.timeout:
         return False, 0, "Timeout"
     except ConnectionRefusedError:
         return False, 0, "Sever refused connection"
     except ssl.SSLError as e:
         return False, 0, f"SSL Error: {e}"
+    except OSError:
+        return False, 0, "No Info"
     except Exception as e:
         return False, 0, f"Unattended Error: {e}"
 
