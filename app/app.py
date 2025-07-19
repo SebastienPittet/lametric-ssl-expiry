@@ -31,7 +31,7 @@ def init_db(database: str, database_schema: str):
             conn.commit()
 
 
-def ServerUptime():
+def ServerUptime() -> str:
     t = uptime()
 
     # create timedelta and convert it into string
@@ -65,7 +65,7 @@ def getHostnameCount(database: str) -> int:
     return counthostname
 
 
-def getLastHostname(database) -> str:
+def getLastHostname(database: str) -> str:
     """
     input: path to database
     output : str with the last fqdn checked
@@ -88,7 +88,7 @@ def getLastHostname(database) -> str:
     return fqdn
 
 
-def getLastHourChecks(database) -> int:
+def getLastHourChecks(database: str) -> int:
     """
     input: path to database
     output : count of checks within last hour (integer)
