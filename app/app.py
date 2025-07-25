@@ -9,8 +9,8 @@ import os
 from uptime import uptime
 
 # --- Database configuration ---
-DATABASE = os.path.join(os.getcwd(), 'sslExpiry.db')
-DB_SCHEMA = os.path.join(os.getcwd(), 'schema.sql')
+DATABASE = os.path.join(os.getcwd(), "sslExpiry.db")
+DB_SCHEMA = os.path.join(os.getcwd(), "schema.sql")
 
 # --- Database operations ---
 
@@ -25,7 +25,7 @@ def init_db(database: str, database_schema: str):
     with get_db(database) as conn:
         cursor = conn.cursor()
 
-        with open(database_schema, mode='r') as f:
+        with open(database_schema, mode="r") as f:
             cursor.executescript(f.read())
             f.close()
             conn.commit()
@@ -38,8 +38,8 @@ def ServerUptime() -> str:
     td_str = str(timedelta(seconds=t))
 
     # split string into individual component, to be Human Readable
-    x = td_str.split(':')
-    uptimehr = x[0] + ' Hours, ' + x[1] + ' Minutes'
+    x = td_str.split(":")
+    uptimehr = x[0] + " Hours, " + x[1] + " Minutes"
     return uptimehr
 
 
@@ -57,7 +57,7 @@ def getHostnameCount(database: str) -> int:
             """
         )
     try:
-        counthostname, = cursor.fetchone()
+        (counthostname,) = cursor.fetchone()
     except Exception:
         counthostname = 0
     cursor.close()
@@ -80,7 +80,7 @@ def getLastHostname(database: str) -> str:
             """
         )
     try:
-        fqdn, = cursor.fetchone()
+        (fqdn,) = cursor.fetchone()
     except Exception:
         fqdn = "Error"
     cursor.close()
@@ -108,7 +108,7 @@ def getLastHourChecks(database: str) -> int:
         cursor = conn.cursor()
         cursor.execute(count_last_hour)
     try:
-        count_last_hour, = cursor.fetchone()
+        (count_last_hour,) = cursor.fetchone()
     except Exception:
         count_last_hour = -1
     cursor.close()
@@ -133,6 +133,7 @@ def get_stats():
     theStats["Server Uptime"] = ServerUptime()
     return jsonify(theStats)
 
+
 # --- Class definitions
 
 
@@ -142,6 +143,7 @@ class CertificateCheckRequest:
     This data class represents a hostname and TCP port
     It is used to validate the params.
     """
+
     hostname: str
     port: int = 443
 
@@ -150,18 +152,22 @@ class CertificateCheckRequest:
             raise ValueError(f"""Port must be a non-empty integer, got {self.port}.""")
 
         if not (1 <= self.port <= 65535):
-            raise ValueError(f"""Port number must be an integer between 1 and 65535, got {self.port}.""")
+            raise ValueError(
+                f"""Port number must be an integer between 1 and 65535, got {self.port}."""
+            )
 
         if not self.hostname or not isinstance(self.hostname, str):
-            raise ValueError(f"""Hostname must be a non-empty string, got '{self.hostname}'.""")
+            raise ValueError(
+                f"""Hostname must be a non-empty string, got '{self.hostname}'."""
+            )
 
         self.hostname = self.hostname.strip().lower()
 
         # Remove whitespace and trailing slash if present.
-        self.hostname = self.hostname.strip().rstrip('/')
+        self.hostname = self.hostname.strip().rstrip("/")
 
         # Remove the "https://" prefix if present
-        if self.hostname.startswith('https://'):
+        if self.hostname.startswith("https://"):
             self.hostname = self.hostname[8:]
 
         """
@@ -170,7 +176,9 @@ class CertificateCheckRequest:
         To implement https://yozachar.github.io/pyvalidators/stable/api/hostname/
         """
         # Find FQDN in the test string
-        pattern = r"^(?!-)(?:[a-z0-9]+(?:-+[a-z0-9]+)*\.)+[a-z0-9]+(?:-+[a-z0-9]+)*(?<!-)$"
+        pattern = (
+            r"^(?!-)(?:[a-z0-9]+(?:-+[a-z0-9]+)*\.)+[a-z0-9]+(?:-+[a-z0-9]+)*(?<!-)$"
+        )
         match = re.match(pattern, self.hostname)
 
         if match:
@@ -184,26 +192,17 @@ class LametricResponse:
     """
     Build the response, in accordance to Lametric's requirements
     """
+
     frames: dict = field(default_factory=dict)
 
     def __post_init__(self) -> dict:
-        self.frames = {
-                "frames": [
-                            {
-                            "text": "SSL exp",
-                            "icon": "i133"
-                            }
-                          ]
-                }
+        self.frames = {"frames": [{"text": "SSL exp", "icon": "i133"}]}
         return self.frames
 
     def add_frame(self, text: str, icon: str):
-        frame = {
-                    "text": text,
-                    "icon": icon
-                }
+        frame = {"text": text, "icon": icon}
 
-        self.frames['frames'].append(frame)
+        self.frames["frames"].append(frame)
         return self.frames
 
 
@@ -220,14 +219,13 @@ def check_ssl_certificate(hostname: str, port: int):
 
     try:
         with socket.create_connection((hostname, port), timeout=5) as sock:
-            with context.wrap_socket(sock,
-                                     server_hostname=hostname) as ssock:
+            with context.wrap_socket(sock, server_hostname=hostname) as ssock:
                 cert = ssock.getpeercert()
 
                 # Find expiration date
-                exp_date = cert['notAfter']
+                exp_date = cert["notAfter"]
 
-                expiry = datetime.strptime(exp_date, '%b %d %X %Y %Z')
+                expiry = datetime.strptime(exp_date, "%b %d %X %Y %Z")
                 today = datetime.today()
                 delta = expiry - today
 
@@ -255,18 +253,19 @@ with ssl_expiry_app.app_context():
 # Flask Routes
 
 
-@ssl_expiry_app.route("/api/v1", methods=['GET'])
+@ssl_expiry_app.route("/api/v1", methods=["GET"])
 def check_certificate():
     raw_hostname = request.args.get("hostname", type=str)
     raw_port = request.args.get("port", -1, type=int)
 
     try:
         # Validate inputs using a dataclass
-        req_params = CertificateCheckRequest(hostname=raw_hostname,
-                                             port=raw_port)
+        req_params = CertificateCheckRequest(hostname=raw_hostname, port=raw_port)
 
         # Check Certificate expiry
-        is_valid, days_remaining, error_message = check_ssl_certificate(req_params.hostname, req_params.port)
+        is_valid, days_remaining, error_message = check_ssl_certificate(
+            req_params.hostname, req_params.port
+        )
 
         # Store data in DB
         with get_db(DATABASE) as conn:
@@ -281,11 +280,13 @@ def check_certificate():
                     error_message)
                 VALUES (?, ?, ?, ?, ?)
                 """,
-                (req_params.hostname,
-                 req_params.port,
-                 is_valid,
-                 days_remaining,
-                 error_message)
+                (
+                    req_params.hostname,
+                    req_params.port,
+                    is_valid,
+                    days_remaining,
+                    error_message,
+                ),
             )
             conn.commit()
 
@@ -320,18 +321,18 @@ def check_certificate():
         return jsonify(lametric_response.frames), 500  # Internal Server Error
 
 
-@ssl_expiry_app.route("/", methods=['GET'])
+@ssl_expiry_app.route("/", methods=["GET"])
 def webFrontEnd():
-    return render_template('index.html')
+    return render_template("index.html")
 
 
-@ssl_expiry_app.route("/api/v1/metrics", methods=['GET'])
+@ssl_expiry_app.route("/api/v1/metrics", methods=["GET"])
 def statistics():
     return get_stats()
 
 
 # Testing to check if it works
-@ssl_expiry_app.route('/test')
+@ssl_expiry_app.route("/test")
 def test():
     """
     Tests to implement
@@ -339,8 +340,8 @@ def test():
     return "OK!"
 
 
-@ssl_expiry_app.route('/robots.txt')
-@ssl_expiry_app.route('/sitemap.xml')
+@ssl_expiry_app.route("/robots.txt")
+@ssl_expiry_app.route("/sitemap.xml")
 def static_from_root():
     return send_from_directory(ssl_expiry_app.static_folder, request.path[1:])
 
@@ -348,8 +349,8 @@ def static_from_root():
 @ssl_expiry_app.errorhandler(404)
 def page_not_found(e):
     # note that we set the 404 status explicitly
-    return render_template('404.html'), 404
+    return render_template("404.html"), 404
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     ssl_expiry_app.run()
