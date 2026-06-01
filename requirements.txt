@@ -6,6 +6,6 @@ gunicorn==25.3.0
 itsdangerous==2.2.0
 Jinja2==3.1.6
 MarkupSafe==3.0.3
-pytz==2026.1.post1
+pytz==2026.2
 six==1.17.0
 uptime==3.0.1
