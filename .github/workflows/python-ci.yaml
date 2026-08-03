@@ -49,6 +49,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          push: true
+          # the following line only push when code is merged to master (not for PRs).
+          push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
           #tags: exo.container-registry.com/pittet-sebastien/ssl-expiry:${{ github.sha }}
           tags: exo.container-registry.com/pittet-sebastien/ssl-expiry:latest
